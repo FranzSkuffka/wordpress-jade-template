@@ -6,15 +6,18 @@
 */
 
 var gulp 				= require("gulp"),
-	gutil 				= require("gulp-util"),
-	watch 				= require("gulp-watch"),
-	compass 			= require("gulp-compass"),
-	jade 				= require("gulp-jade-php"),
+	gutil				= require("gulp-util"),
+	watch				= require("gulp-watch"),
+	axis				= require("axis-css"),
+	accord				= require("gulp-accord"),
+	rupture 			= require("rupture"),
+	jade				= require("gulp-jade-php"),
 	plumber				= require("gulp-plumber")
+	changeExtension			= require("gulp-ext-replace")
 
 var paths = {
 	styles: {
-		src: "./scss/**/*.scss",
+		src: "./styl/**/*.styl",
 		dest: "./stylesheets"
 	},
 	templates: {
@@ -31,13 +34,10 @@ function handleError(err) {
 gulp.task("styles", function() {
 	return gulp.src(paths.styles.src)
 		.pipe(plumber())
-		.pipe(compass({
-			css: "./stylesheets",
-			sass: "./scss",
-			image: "./images"
-		}))
+		.pipe(accord('stylus', {use:[axis(),rupture()]}))
 		.on('error', handleError)
 		.pipe(plumber.stop())
+		.pipe(changeExtension('.css'))
 		.pipe(gulp.dest(paths.styles.dest));
 });
 
@@ -45,8 +45,8 @@ gulp.task("templates", function() {
   gulp.src(paths.templates.src)
   	.pipe(plumber())
 	.pipe(jade())
-	.pipe(plumber.stop())		
-	.pipe(gulp.dest(paths.tempaltes.dest));
+	.pipe(plumber.stop())
+	.pipe(gulp.dest(paths.templates.dest));
 });
 
 gulp.task("default", function() {
