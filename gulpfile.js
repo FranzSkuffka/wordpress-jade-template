@@ -17,7 +17,8 @@ var gulp 				= require("gulp"),
 
 var paths = {
 	styles: {
-		src: "./styl/**/*.styl",
+		src: "./styl/app.styl",
+		watch: "./styl/**/*.styl",
 		dest: "./stylesheets"
 	},
 	templates: {
@@ -50,6 +51,6 @@ gulp.task("templates", function() {
 });
 
 gulp.task("default", function() {
-	gulp.watch(paths.styles.src, ["styles"]);
+	gulp.watch(paths.styles.watch, ["styles"]);
 	gulp.watch(paths.templates.src, ["templates"]);
 });
